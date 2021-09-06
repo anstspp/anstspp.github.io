@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPP検索</title>
+<meta name="description" content="SPPを検索するやつ">
+<link rel="stylesheet" href="./css/mvp.css">
+<style>
+dt{
+  float: left;
+}
+dd{
+  padding-left: 7rem;
+}
+dl{
+clear: both;
+}
+
+.ti,
+.ti > a{
+    font-weight: normal;
+    font-size: 0.6rem;
+    color:#cccccc;
+}
+
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+			<ul>
+                <li><a href="./">戻る</a></li>
+            </ul>
+        </nav>
+    </header>
+<main>
+<h4>これはなに</h4>
+<p>
+どのカードにどのSPPが割り当てられているかの簡易検索<br>
+あんさんぶるライブの際、SPPが見たいのにどの曲なのかわからない（特に★4）けど調べてたら40秒なんかすぐだし、
+パパっとわかる方法が欲しかった（100%自分用）
+</p>
+<h4>仕様</h4>
+<p>
+・データを読み込むのに1～2秒かかるため、あらかじめページを表示しておくのおすすめ<br>
+1回表示してしまえば、検索しても再読み込みしません<br>
+・色：カードの色<br>
+・検索の範囲：表示されてる情報全部＋キャラクター名ふりがな</p>
+<dl>
+  <dt>キャラクター名</dt><dd>漢字・ふりがな</dd>
+  <dt>カード名</dt><dd>そのまま</dd>
+  <dt>曲名</dt><dd>そのまま</dd>
+  <dt>★・入手イベント類</dt><dd>判別の助けに入れただけですが検索も一応可能</dd>
+</dl>
+<p>
+・各項目でソート可能<br>
+スマホ縦表示は表のヘッダがないのでソートできません<br>
+・googleスプレッドシートから直接データひっぱってます<br>
+</p>
+
+<p>
+間違いなど　<a href="https://marshmallow-qa.com/makto_ta">マシュマロ</a>
+</p>
+<p class="ti">カード増えてもデータは勝手に更新されないことに気づいたけどもめんｄ<br>
+自分以外に使う人いるならデータの更新もするであろうという気持ちで公開<br>
+<a href="https://marshmallow-qa.com/makto_ta">俺にパゥアを分けてほしい</a></p>
+</main>
+
+</body>
+</html>

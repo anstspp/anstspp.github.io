@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPP検索</title>
+<meta name="description" content="SPPを検索するやつ">
+<link rel="stylesheet" href="./css/mvp.css">
+<link rel="stylesheet" href="./css/table.css">
+<script src="./js/vue.min.js"></script>
+<script src="./js/axios.min.js"></script>
+
+<!--  https://jp.vuejs.org/v2/examples/grid-component.html  -->
+ <!-- component template -->
+    <script type="text/x-template" id="grid-template">
+      <table class="tb01">
+        <thead>
+          <tr class="head">
+            <th v-for="key in columns"
+              @click="sortBy(key)"
+              :class="{ active: sortKey == key }">
+              {{ key | capitalize }}
+              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="entry in filteres" :class="entry.type">
+            <td v-for="key in columns" :class="key">
+              {{entry[key]}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
+  </head>
+  
+  
+  
+<body>
+<main>
+	<details>
+    <summary>SPP検索</summary>
+		<p>「キャラクター名（ふりがな可）」「カード名」「曲名」などで検索する感じのもの　<a href="read.html">もうちょっと詳しく</a><br>
+data：スカウト！月都スペクタクル まで<br>
+データの並び順をアルバムに合わせたい
+		</p>
+    </details>
+
+<!-- app root element -->
+    <div id="app">
+<input name="query" v-model="searchQuery" size="30" placeholder="名前（ふりがな可）" />
+      <app-grid
+        :data="gridData"
+        :columns="gridColumns"
+        :filter-key="searchQuery"
+      >
+      </app-grid>
+    </div>
+
+    <script>
+      // register the grid component
+      Vue.component("app-grid", {
+        template: "#grid-template",
+        props: {
+          data: Array,
+          columns: Array,
+          filterKey: String
+        },
+        data: function() {
+          var sortOrders = {};
+          this.columns.forEach(function(key) {
+            sortOrders[key] = 1;
+          });
+          return {
+            sortKey: "",
+            sortOrders: sortOrders
+          };
+        },
+        computed: {
+          filteres: function() {
+            var sortKey = this.sortKey;
+            var filterKey = this.filterKey && this.filterKey.toLowerCase();
+            var order = this.sortOrders[sortKey] || 1;
+            var data = this.data;
+            if (filterKey) {
+              data = data.filter(function(row) {
+                return Object.keys(row).some(function(key) {
+                  return (
+                    String(row[key])
+                      .toLowerCase()
+                      .indexOf(filterKey) > -1
+                  );
+                });
+              });
+            }
+            if (sortKey) {
+              data = data.slice().sort(function(a, b) {
+                a = a[sortKey];
+                b = b[sortKey];
+                return (a === b ? 0 : a > b ? 1 : -1) * order;
+              });
+            }
+            return data;
+          }
+        },
+        filters: {
+          capitalize: function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          }
+        },
+        methods: {
+
+          sortBy: function(key) {
+            this.sortKey = key;
+            this.sortOrders[key] = this.sortOrders[key] * -1;
+          }
+
+
+        }
+      });
+
+// 
+      var app = new Vue({
+        el: "#app",data: {
+          searchQuery: "",
+          gridColumns: ["star","cardname","spp","type","get"],
+//        gridColumns: ["id":number,"star": string,"cardname": string,"spp": string"type": string,"get": String],
+          gridData: []
+        },
+    mounted(){
+    axios
+    .get('https://script.google.com/macros/s/AKfycbxUPSHnZidvTY7_SKJuUgpnln5oiv3eT9wJ46CfAfbwzBX-Ym7GvDuSW0B4YBvbQUVXyg/exec')
+    .then(response => {
+	    this.gridData = response.data
+    })
+    }
+
+      });
+    </script>
+</main>
+  </body>
+</html>
